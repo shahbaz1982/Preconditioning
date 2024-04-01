@@ -69,7 +69,7 @@ M=speye(n1,n1);
 U1 = zeros(nx1,nx1); 
 [D,C,AD] = computeMat(U1,nx1,m1,beta_N);
 
-[B] = Bcomp(nx1);
+[B] = Bcomp11(nx1);
 %---------------------Eigenvalues-------------------------------------------
 
  K1=[KK1'*KK1 -alpha_N*AD;
@@ -193,6 +193,25 @@ Wb = Wyb(:,1:mm1);
  %-----------------------------------------------------------
  
  end
+function [B] = Bcomp11(nx)
+e = ones(nx,1);
+E = spdiags([0*e -1*e e], -1:1, nx, nx);
+E1 =E(1:nx-1,:);
+ 
+M1=eye(nx,nx);
+B1=kron(E1,M1);
+ 
+E2 = eye(nx);
+M2 = spdiags([0*e -1*e e], -1:1, nx-1, nx);
+B2 = kron(E2,M2);
+ 
+B = [B1;B2];
+% L = B'*D*B;
+end 
+ 
+ 
+ 
+ 
  %------------------------------------------------------------
  function p = PSNR(x,y)
 
